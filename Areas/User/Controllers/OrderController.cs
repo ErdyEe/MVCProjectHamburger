@@ -32,5 +32,7 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             List<Menu> menu = _context.Menus.ToList();
             return PartialView("_GetMenuPartial", menu);
         }
+
+
     }
 }
