@@ -16,6 +16,9 @@ namespace MVCProjectHamburger
             builder.Services.AddDbContext<HamburgerDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+                //        builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                //.AddEntityFrameworkStores<HamburgerDbContext>();
+
             builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddRoles<AppRole>()
             .AddEntityFrameworkStores<HamburgerDbContext>();
