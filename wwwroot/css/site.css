@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.side {
+    width: 300px;
+    background-color: rgb(179, 131, 138);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}

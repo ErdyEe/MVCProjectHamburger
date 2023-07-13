@@ -1,4 +1,14 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+$(document).ready(GetMenuList());
 
-// Write your JavaScript code.
+function GetMenuList() {
+    $.ajax({
+
+        url: "/User/Order/GetMenu",
+        type: "get",
+        success: function (response) {
+            $("#list").html(response);
+            $("#shoppingCart").html("");
+        }
+    });
+}

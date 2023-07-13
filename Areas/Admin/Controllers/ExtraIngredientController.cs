@@ -92,7 +92,7 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
                     string newFileName = guid.ToString() + "_" + ImgName.FileName;
                     extraIngredient.CoverImage = newFileName;
 
-                    FileStream st = new FileStream("wwwroot/HamburgerCoverImages/" + newFileName, FileMode.Create);
+                    FileStream st = new FileStream("wwwroot/ExtraIngredientCoverImages/" + newFileName, FileMode.Create);
                     await ImgName.CopyToAsync(st);
 
                     await _context.SaveChangesAsync();
