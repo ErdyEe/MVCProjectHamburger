@@ -29,22 +29,7 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
         }
 
         // GET: Admin/ExtraIngredient/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.ExtraIngredients == null)
-            {
-                return NotFound();
-            }
-
-            var extraIngredient = await _context.ExtraIngredients
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (extraIngredient == null)
-            {
-                return NotFound();
-            }
-
-            return View(extraIngredient);
-        }
+       
 
         // GET: Admin/ExtraIngredient/Create
         public IActionResult Create()

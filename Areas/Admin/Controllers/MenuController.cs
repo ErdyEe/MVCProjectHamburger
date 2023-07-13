@@ -29,22 +29,7 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
         }
 
         // GET: Admin/Menu/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Menus == null)
-            {
-                return NotFound();
-            }
-
-            var menu = await _context.Menus
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (menu == null)
-            {
-                return NotFound();
-            }
-
-            return View(menu);
-        }
+       
 
         // GET: Admin/Menu/Create
         public IActionResult Create()
@@ -91,7 +76,7 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Price,CoverImage,ID")] Menu menu)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Price,CoverImage,ID")] Menu menu,IFormFile ImgName)
         {
             if (id != menu.ID)
             {
@@ -103,6 +88,13 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
                 try
                 {
                     _context.Update(menu);
+                    Guid guid = Guid.NewGuid();
+                    string newFileName = guid.ToString() + "_" + ImgName.FileName;
+                    menu.CoverImage = newFileName;
+
+                    FileStream st = new FileStream("wwwroot/HamburgerCoverImages/" + newFileName, FileMode.Create);
+                    await ImgName.CopyToAsync(st);
+                   
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
