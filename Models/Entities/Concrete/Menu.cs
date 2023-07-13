@@ -10,7 +10,6 @@ namespace MVCProjectHamburger.Models.Entities.Concrete
             MenuExtraIngredients = new List<MenuExtraIngredient>();
             MenuOrders = new List<MenuOrder>();
         }
-        public MenuSize MenuSize { get; set; }
         public ICollection<MenuExtraIngredient> MenuExtraIngredients { get; set; }
         public ICollection<MenuOrder> MenuOrders { get; set; }
     }
