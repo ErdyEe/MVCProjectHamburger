@@ -76,7 +76,7 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Price,CoverImage,ID")] ExtraIngredient extraIngredient)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Price,CoverImage,ID")] ExtraIngredient extraIngredient, IFormFile ImgName)
         {
             if (id != extraIngredient.ID)
             {
@@ -88,6 +88,13 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
                 try
                 {
                     _context.Update(extraIngredient);
+                    Guid guid = Guid.NewGuid();
+                    string newFileName = guid.ToString() + "_" + ImgName.FileName;
+                    extraIngredient.CoverImage = newFileName;
+
+                    FileStream st = new FileStream("wwwroot/HamburgerCoverImages/" + newFileName, FileMode.Create);
+                    await ImgName.CopyToAsync(st);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
