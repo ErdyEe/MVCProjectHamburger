@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCProjectHamburger.Data;
 using MVCProjectHamburger.Models.Entities.Concrete;
+using MVCProjectHamburger.Models.ViewModels;
 
 namespace MVCProjectHamburger.Areas.User.Controllers
 {
@@ -31,6 +32,12 @@ namespace MVCProjectHamburger.Areas.User.Controllers
         {
             List<Menu> menu = _context.Menus.ToList();
             return PartialView("_GetMenuPartial", menu);
+        }
+
+        public IActionResult GetExtraIngredient()
+        {
+            List<ExtraIngredient> extraIngredients = _context.ExtraIngredients.ToList();
+            return PartialView("_GetExtraIngredientPartial", extraIngredients);
         }
 
 

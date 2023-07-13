@@ -9,9 +9,11 @@
                 <div class="card-body">
                     <h5 class="card-title"> @menu.Name </h5>
                     <p class="card-text"> @menu.Price TL </p>
-                    <a href="#" class="btn btn-primary"> Sepete Ekle </a>
+                    <a class="btn btn-primary" asp-route-id="@menu.ID"> Sepete Ekle </a>
                 </div>
             </div>
         </div>
     }
 </div>
+
+@*ADET, BOY asp-route ile kartların içine gelicek. Helper Classında bir method yapılacak. *@

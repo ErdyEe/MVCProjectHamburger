@@ -9,9 +9,6 @@ namespace MVCProjectHamburger.Models.Utilities
         {
             AppUser user = new AppUser
             {
-
-
-
                 //Microsoft; aksi soylenmedikçe Identity kullanımında email adreslerini otomatik olarak
                 //username kısmına atar...
                 //Değiştirmek için; Areas => Identity=> Register => OnPostAsync() metoduna bakınız...

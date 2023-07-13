@@ -12,3 +12,17 @@ function GetMenuList() {
         }
     });
 }
+
+function GetExtraIngredientList() {
+    $.ajax({
+
+        url: "/User/Order/GetExtraIngredient",
+        type: "get",
+        success: function (response) {
+            $("#list").html(response);
+            $("#shoppingCart").html("");
+        }
+    });
+}
+
+
