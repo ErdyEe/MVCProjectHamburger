@@ -57,15 +57,17 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Price,CoverImage,ID")] Menu menu)
+        public async Task<IActionResult> Create([Bind("Name,Price,CoverImage,ID")] Menu menu, IFormFile ImageName)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(menu);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(menu);
+            _context.Menus.Add(menu);
+            Guid guid = Guid.NewGuid();
+            string newFileName = guid.ToString() + "_" + ImageName.FileName;
+            menu.CoverImage = newFileName;
+
+            FileStream st = new FileStream("wwwroot/HamburgerCoverImages/" + newFileName, FileMode.Create);
+            await ImageName.CopyToAsync(st);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: Admin/Menu/Edit/5

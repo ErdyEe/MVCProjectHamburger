@@ -57,15 +57,17 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Price,CoverImage,ID")] ExtraIngredient extraIngredient)
+        public async Task<IActionResult> Create([Bind("Name,Price,CoverImage,ID")] ExtraIngredient extraIngredient, IFormFile ImgName)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(extraIngredient);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(extraIngredient);
+            _context.ExtraIngredients.Add(extraIngredient);
+            Guid guid = Guid.NewGuid();
+            string newFileName = guid.ToString() + "_" + ImgName.FileName;
+            extraIngredient.CoverImage = newFileName;
+
+            FileStream fs = new FileStream("wwwroot/ExtraIngredientCoverImages/" + newFileName, FileMode.Create);
+            await ImgName.CopyToAsync(fs);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: Admin/ExtraIngredient/Edit/5
