@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVCProjectHamburger.Data;
 using MVCProjectHamburger.Models.Entities.Concrete;
+using MVCProjectHamburger.Models.Utilities;
 using System;
 
 namespace MVCProjectHamburger
@@ -62,6 +63,10 @@ namespace MVCProjectHamburger
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
+           
+            var scope = app.Services.CreateScope();
+            var userManager = (UserManager<AppUser>)scope.ServiceProvider.GetService(typeof(UserManager<AppUser>));
+            ForLogin.AddSuperUserAsync(userManager);
 
             app.Run();
         }
