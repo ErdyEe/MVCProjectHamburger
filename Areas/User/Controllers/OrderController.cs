@@ -39,11 +39,11 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             List<ExtraIngredient> extraIngredients = _context.ExtraIngredients.ToList();
             return PartialView("_GetExtraIngredientPartial", extraIngredients);
         }
-
-        public IActionResult AddToOrder(int id)
+       
+        [HttpPost]
+        public IActionResult AddToOrder(int menuID, int number, int menuSize)
         {
-            Menu menu = _context.Menus.Find(id);
-            return PartialView("_GetMenuPartial", menu);
+            return RedirectToAction("Index");
         }
         //[HttpPost]
         //public IActionResult AddToOrder(Menu menu)
