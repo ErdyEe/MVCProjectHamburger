@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCProjectHamburger.Data;
 using MVCProjectHamburger.Models.Entities.Concrete;
+using MVCProjectHamburger.Models.Enums;
 using MVCProjectHamburger.Models.ViewModels;
 
 namespace MVCProjectHamburger.Areas.User.Controllers
@@ -15,10 +17,16 @@ namespace MVCProjectHamburger.Areas.User.Controllers
     public class OrderController : Controller
     {
         private readonly HamburgerDbContext _context;
-
-        public OrderController(HamburgerDbContext context)
+        private readonly UserManager<AppUser> userManager;
+        Order order;
+        public OrderController(HamburgerDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
+            order = new Order();
+            order.ID = 1;
+            _context.Orders.Add(order);
+            _context.SaveChanges();
         }
 
         // GET: User/Order
@@ -39,18 +47,66 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             List<ExtraIngredient> extraIngredients = _context.ExtraIngredients.ToList();
             return PartialView("_GetExtraIngredientPartial", extraIngredients);
         }
-       
+        //public IActionResult AddToOrder()
+        //{
+        //    return PartialView("_GetPartialShoppingCart");
+        //}
+
         [HttpPost]
         public IActionResult AddToOrder(int menuID, int number, int menuSize)
         {
-            
-            return RedirectToAction("Index");
+
+           _context.MenuOrders.Add(new MenuOrder { /*AppUserID = GetUserID(),*/ MenuID = menuID, Number = number, MenuSizes = (MenuSize)EnumBelirle(menuSize), OrderID = order.ID });
+
+            _context.SaveChanges();
+            MenuOrder menu = _context.MenuOrders.Find(order.ID);
+
+
+            return PartialView("_GetPartialShoppingCart",menu);
         }
+
+        //public IActionResult NewCreateOrder(MenuOrder menuorder)
+        //{
+        //    if (menuorder.OrderID != null)
+        //    {
+        //        menuorder.OrderID = order.ID;
+        //        return PartialView("_GetPartialShoppingCart", menuorder);
+        //    }
+        //    else
+        //    {
+        //        order = new();
+        //        menuorder.OrderID = order.ID;
+        //        return PartialView("_GetPartialShoppingCart", menuorder);
+
+        //    }
+        //}
+
         //Login olununca new Order yapılacak 
         //AddToOrder actioununda menu seçildi menuorderdan ordera ekleme yapılacak
+
         //Sipariş tamamla denildiğinde orders listesine order eklenecek
         //Sipariş tamamla deninldiğinde new order yapılacak
 
+
+        private int GetUserID()
+        {
+            return int.Parse(userManager.GetUserId(User));
+        }
+        private Enum EnumBelirle(int sayi)
+        {
+            if (sayi == 0)
+            {
+                return MenuSize.Small;
+            }
+            else if (sayi == 10)
+            {
+                return MenuSize.Medium;
+            }
+            else
+            {
+                return MenuSize.Large;
+            }
+        }
 
     }
 }
