@@ -24,7 +24,7 @@ namespace MVCProjectHamburger.Areas.User.Controllers
         // GET: User/Order
         public async Task<IActionResult> Index()
         {
-            var hamburgerDbContext = _context.Orders.Include(o => o.AppUser).Include(o =>o.OrderMenus).Include(o=>o.OrderExtraIngredients);
+            var hamburgerDbContext = _context.Orders.Include(o => o.AppUser).Include(o => o.OrderMenus).Include(o => o.OrderExtraIngredients);
             return View(await hamburgerDbContext.ToListAsync());
         }
 
@@ -39,6 +39,17 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             List<ExtraIngredient> extraIngredients = _context.ExtraIngredients.ToList();
             return PartialView("_GetExtraIngredientPartial", extraIngredients);
         }
+
+        public IActionResult AddToOrder(int id)
+        {
+            Menu menu = _context.Menus.Find(id);
+            return PartialView("_GetMenuPartial", menu);
+        }
+        //[HttpPost]
+        //public IActionResult AddToOrder(Menu menu)
+        //{
+
+        //}
 
 
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVCProjectHamburger.Models.Entities.Concrete
 {
@@ -6,8 +7,9 @@ namespace MVCProjectHamburger.Models.Entities.Concrete
     {
         public AppUser()
         {
-            Orders = new List<Order>();
+            MenuOrders = new List<MenuOrder>();
         }
-        public ICollection<Order> Orders { get; set; }
+        [ForeignKey("AppUserID")]
+        public ICollection<MenuOrder> MenuOrders { get; set; }
     }
 }

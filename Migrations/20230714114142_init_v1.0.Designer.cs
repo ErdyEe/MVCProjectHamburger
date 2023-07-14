@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCProjectHamburger.Migrations
 {
     [DbContext(typeof(HamburgerDbContext))]
-    [Migration("20230713122752_changetable")]
-    partial class changetable
+    [Migration("20230714114142_init_v1.0")]
+    partial class init_v10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,14 +160,14 @@ namespace MVCProjectHamburger.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "3e0a5853-b916-44fb-9fbb-385180ce4da5",
+                            ConcurrencyStamp = "42f26739-3de2-44a9-ad5d-21688a24d3ee",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "281a36b6-ae82-4f31-8fff-cc22b7abdc24",
+                            ConcurrencyStamp = "ed30e97e-6d98-47d5-9379-d5f9b3718840",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -329,13 +329,24 @@ namespace MVCProjectHamburger.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<int?>("AppUserID")
+                        .HasColumnType("int");
+
                     b.Property<int>("MenuID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MenuSizes")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AppUserID");
 
                     b.HasIndex("MenuID");
 
@@ -353,12 +364,6 @@ namespace MVCProjectHamburger.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<int>("AppUserID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MenuSize")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.Property<int>("TotalPrice")
@@ -443,6 +448,10 @@ namespace MVCProjectHamburger.Migrations
 
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.MenuOrder", b =>
                 {
+                    b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.AppUser", "AppUser")
+                        .WithMany("MenuOrders")
+                        .HasForeignKey("AppUserID");
+
                     b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.Menu", "Menu")
                         .WithMany("MenuOrders")
                         .HasForeignKey("MenuID")
@@ -455,6 +464,8 @@ namespace MVCProjectHamburger.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("AppUser");
+
                     b.Navigation("Menu");
 
                     b.Navigation("Order");
@@ -463,7 +474,7 @@ namespace MVCProjectHamburger.Migrations
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.Order", b =>
                 {
                     b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.AppUser", "AppUser")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("AppUserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -473,7 +484,7 @@ namespace MVCProjectHamburger.Migrations
 
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.AppUser", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("MenuOrders");
                 });
 
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.ExtraIngredient", b =>

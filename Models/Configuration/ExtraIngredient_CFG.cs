@@ -8,13 +8,13 @@ namespace MVCProjectHamburger.Models.Configuration
     {
         public void Configure(EntityTypeBuilder<ExtraIngredient> builder)
         {
-            builder.HasData(
-                new ExtraIngredient
-                {
-                    ID = 1,
-                    Name = "BBQ",
-                    CoverImage = "bbq.jpg",
-                    Price = 18
-                });
+            //builder.HasData(
+            //    new ExtraIngredient
+            //    {
+            //        ID = 1,
+            //        Name = "BBQ",
+            //        CoverImage = "bbq.jpg",
+            //        Price = 18
+            //    });
         }
     } }

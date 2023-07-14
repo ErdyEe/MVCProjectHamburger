@@ -27,6 +27,7 @@ namespace MVCProjectHamburger.Data
             builder.Entity<ExtraIngredientOrder>().HasKey(x => x.ID);
            
             builder.Entity<MenuOrder>().HasKey(x => x.ID);
+            
 
 
             builder.Entity<AppRole>().HasData(
