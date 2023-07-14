@@ -43,13 +43,13 @@ namespace MVCProjectHamburger.Areas.User.Controllers
         [HttpPost]
         public IActionResult AddToOrder(int menuID, int number, int menuSize)
         {
+            
             return RedirectToAction("Index");
         }
-        //[HttpPost]
-        //public IActionResult AddToOrder(Menu menu)
-        //{
-
-        //}
+        //Login olununca new Order yapılacak 
+        //AddToOrder actioununda menu seçildi menuorderdan ordera ekleme yapılacak
+        //Sipariş tamamla denildiğinde orders listesine order eklenecek
+        //Sipariş tamamla deninldiğinde new order yapılacak
 
 
     }
