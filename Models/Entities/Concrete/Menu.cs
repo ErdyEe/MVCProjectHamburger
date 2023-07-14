@@ -9,8 +9,10 @@ namespace MVCProjectHamburger.Models.Entities.Concrete
         {
            
             MenuOrders = new List<MenuOrder>();
+            
         }
-       
+
+        public   MenuSize MenuSizes { get; set; }
         public ICollection<MenuOrder> MenuOrders { get; set; }
     }
 }

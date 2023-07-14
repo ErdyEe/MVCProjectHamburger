@@ -12,7 +12,7 @@ namespace MVCProjectHamburger.Models.Entities.Concrete
         public int ID { get; set; }
         public int Number { get; set; }
         public int TotalPrice { get; set; }
-        public MenuSize MenuSize { get; set; }
+      
         public ICollection<MenuOrder> OrderMenus { get; set; }
         public ICollection<ExtraIngredientOrder> OrderExtraIngredients { get; set; }
         public int AppUserID { get; set; }

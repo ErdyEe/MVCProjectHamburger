@@ -4,6 +4,7 @@ using MVCProjectHamburger.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCProjectHamburger.Migrations
 {
     [DbContext(typeof(HamburgerDbContext))]
-    partial class HamburgerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230714095320_init1.2")]
+    partial class init12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,14 +160,14 @@ namespace MVCProjectHamburger.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "57d8a050-55b2-4c8c-beb6-d731fef3f0d4",
+                            ConcurrencyStamp = "16a98230-5875-43eb-b289-1acaa73452f8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "5d79b2f1-4cbf-49a2-ad98-df0e9b189618",
+                            ConcurrencyStamp = "e59839c9-ed90-4b36-9649-824492eb78db",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -307,7 +309,7 @@ namespace MVCProjectHamburger.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MenuSizes")
+                    b.Property<int>("MenuSize")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
