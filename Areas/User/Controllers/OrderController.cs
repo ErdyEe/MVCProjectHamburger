@@ -66,10 +66,11 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             od.AppUserID = GetUserID();
             _context.Orders.Update(od);
             _context.SaveChanges();
+
             ShoppingCart cart = new ShoppingCart();
             cart.OrderID = od.ID;
             cart.Name = menu.Name;
-            cart.TotalPrice=od.TotalPrice;
+            cart.TotalPrice= (menu.Price + menuSize) * number; // Addtoorder a totalprice ekle !!
             cart.Number = number;
             cart.MenuSize=EnumBelirle(menuSize).ToString();
             cart.MenuOrderId = lastMenuOrder.ID;
