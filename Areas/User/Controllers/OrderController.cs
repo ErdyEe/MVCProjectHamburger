@@ -59,20 +59,44 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             _context.MenuOrders.Add(new MenuOrder {AppUserID = GetUserID(), MenuID = menuID, Number = number, MenuSizes = (MenuSize)EnumBelirle(menuSize),OrderID=od.ID});
             _context.SaveChanges();
 
+            var lastMenuOrder=_context.MenuOrders.OrderBy(o=>o.ID).LastOrDefault();
+
             Menu menu=_context.Menus.Find(menuID);
             od.TotalPrice += (menu.Price + menuSize)*number;
             od.AppUserID = GetUserID();
             _context.Orders.Update(od);
             _context.SaveChanges();
-            List<string> list = new List<string>();
-            list.Add(menu.Name);
-            list.Add(od.TotalPrice.ToString());
-            list.Add(number.ToString());
-            list.Add(EnumBelirle(menuSize).ToString());
+            ShoppingCart cart = new ShoppingCart();
+            cart.OrderID = od.ID;
+            cart.Name = menu.Name;
+            cart.TotalPrice=od.TotalPrice;
+            cart.Number = number;
+            cart.MenuSize=EnumBelirle(menuSize).ToString();
+            cart.MenuOrderId = lastMenuOrder.ID;
+            _context.shoppingCarts.Add(cart);
+            _context.SaveChanges();
 
-            return PartialView("_GetPartialShoppingCart",list);
+            //List<string> list = new List<string>();
+            //list.Add(menu.Name);
+            //list.Add(od.TotalPrice.ToString());
+            //list.Add(number.ToString());
+            //list.Add(EnumBelirle(menuSize).ToString());
+
+           
 
 
+
+            return RedirectToAction("ShoopingCart", new { id = od.ID });
+
+
+        }
+        public IActionResult ShoopingCart(int id)
+        {
+            List<ShoppingCart> orderList = _context.shoppingCarts.Where(x => x.OrderID == id).ToList();
+            return View(orderList);
+
+            //menuorderıd den silicez
+            //shoppingcardıd silinicek
         }
         [HttpPost]
         public IActionResult NewOrder()

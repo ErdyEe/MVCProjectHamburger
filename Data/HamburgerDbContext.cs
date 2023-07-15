@@ -19,12 +19,14 @@ namespace MVCProjectHamburger.Data
         public DbSet<MenuOrder> MenuOrders { get; set; }
         public DbSet<AppUser> Users { get; set; }
         public DbSet<AppRole> Roles { get; set; }
+        public DbSet<ShoppingCart> shoppingCarts { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ExtraIngredient>().HasKey(x => x.ID);
             builder.Entity<Order>().HasKey(x => x.ID);
             builder.Entity<Menu>().HasKey(x => x.ID);
             builder.Entity<ExtraIngredientOrder>().HasKey(x => x.ID);
+            builder.Entity<ShoppingCart>().HasKey(x => x.ID);
            
             builder.Entity<MenuOrder>().HasKey(x => x.ID);
             
