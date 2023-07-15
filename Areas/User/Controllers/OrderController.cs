@@ -18,15 +18,12 @@ namespace MVCProjectHamburger.Areas.User.Controllers
     {
         private readonly HamburgerDbContext _context;
         private readonly UserManager<AppUser> userManager;
-        Order order;
+        
         public OrderController(HamburgerDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
             this.userManager = userManager;
-            order = new Order();
-            order.ID = 1;
-            _context.Orders.Add(order);
-            _context.SaveChanges();
+            
         }
 
         // GET: User/Order
@@ -55,31 +52,24 @@ namespace MVCProjectHamburger.Areas.User.Controllers
         [HttpPost]
         public IActionResult AddToOrder(int menuID, int number, int menuSize)
         {
+            var sortedOrders = _context.Orders.OrderBy(o => o.ID);
+            Order od = sortedOrders.LastOrDefault();
 
-           _context.MenuOrders.Add(new MenuOrder { /*AppUserID = GetUserID(),*/ MenuID = menuID, Number = number, MenuSizes = (MenuSize)EnumBelirle(menuSize), OrderID = order.ID });
-
+            _context.MenuOrders.Add(new MenuOrder {AppUserID = GetUserID(), MenuID = menuID, Number = number, MenuSizes = (MenuSize)EnumBelirle(menuSize),OrderID=od.ID});
             _context.SaveChanges();
-            MenuOrder menu = _context.MenuOrders.Find(order.ID);
+            return NoContent();
 
 
-            return PartialView("_GetPartialShoppingCart",menu);
+        }
+        [HttpPost]
+        public IActionResult NewOrder()
+        {
+            Order od = new Order();
+            _context.Orders.Add(od);
+            _context.SaveChanges();
+            return NoContent();
         }
 
-        //public IActionResult NewCreateOrder(MenuOrder menuorder)
-        //{
-        //    if (menuorder.OrderID != null)
-        //    {
-        //        menuorder.OrderID = order.ID;
-        //        return PartialView("_GetPartialShoppingCart", menuorder);
-        //    }
-        //    else
-        //    {
-        //        order = new();
-        //        menuorder.OrderID = order.ID;
-        //        return PartialView("_GetPartialShoppingCart", menuorder);
-
-        //    }
-        //}
 
         //Login olununca new Order yapılacak 
         //AddToOrder actioununda menu seçildi menuorderdan ordera ekleme yapılacak
