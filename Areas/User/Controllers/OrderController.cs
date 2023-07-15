@@ -64,7 +64,13 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             od.AppUserID = GetUserID();
             _context.Orders.Update(od);
             _context.SaveChanges();
-            return NoContent();
+            List<string> list = new List<string>();
+            list.Add(menu.Name);
+            list.Add(od.TotalPrice.ToString());
+            list.Add(number.ToString());
+            list.Add(EnumBelirle(menuSize).ToString());
+
+            return PartialView("_GetPartialShoppingCart",list);
 
 
         }
