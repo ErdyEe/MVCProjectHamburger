@@ -54,8 +54,15 @@ namespace MVCProjectHamburger.Areas.User.Controllers
         {
             var sortedOrders = _context.Orders.OrderBy(o => o.ID);
             Order od = sortedOrders.LastOrDefault();
+            
 
             _context.MenuOrders.Add(new MenuOrder {AppUserID = GetUserID(), MenuID = menuID, Number = number, MenuSizes = (MenuSize)EnumBelirle(menuSize),OrderID=od.ID});
+            _context.SaveChanges();
+
+            Menu menu=_context.Menus.Find(menuID);
+            od.TotalPrice += (menu.Price + menuSize)*number;
+            od.AppUserID = GetUserID();
+            _context.Orders.Update(od);
             _context.SaveChanges();
             return NoContent();
 
@@ -65,6 +72,7 @@ namespace MVCProjectHamburger.Areas.User.Controllers
         public IActionResult NewOrder()
         {
             Order od = new Order();
+            od.TotalPrice = 0;
             _context.Orders.Add(od);
             _context.SaveChanges();
             return NoContent();

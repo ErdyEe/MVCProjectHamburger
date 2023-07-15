@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCProjectHamburger.Migrations
 {
     [DbContext(typeof(HamburgerDbContext))]
-    [Migration("20230714114142_init_v1.0")]
-    partial class init_v10
+    [Migration("20230715211709_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,14 +160,14 @@ namespace MVCProjectHamburger.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "42f26739-3de2-44a9-ad5d-21688a24d3ee",
+                            ConcurrencyStamp = "66a89778-12e9-4648-b23b-728c2dacfafe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "ed30e97e-6d98-47d5-9379-d5f9b3718840",
+                            ConcurrencyStamp = "f10180e3-51a6-4753-a2f9-7fcafb3cc0a9",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -263,15 +263,6 @@ namespace MVCProjectHamburger.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ExtraIngredients");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            CoverImage = "bbq.jpg",
-                            Name = "BBQ",
-                            Price = 18
-                        });
                 });
 
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.ExtraIngredientOrder", b =>
@@ -363,7 +354,7 @@ namespace MVCProjectHamburger.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("AppUserID")
+                    b.Property<int?>("AppUserID")
                         .HasColumnType("int");
 
                     b.Property<int>("TotalPrice")
@@ -475,9 +466,7 @@ namespace MVCProjectHamburger.Migrations
                 {
                     b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserID");
 
                     b.Navigation("AppUser");
                 });

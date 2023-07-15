@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MVCProjectHamburger.Migrations
 {
-    public partial class init_v10 : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -193,7 +193,7 @@ namespace MVCProjectHamburger.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TotalPrice = table.Column<int>(type: "int", nullable: false),
-                    AppUserID = table.Column<int>(type: "int", nullable: false)
+                    AppUserID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -202,8 +202,7 @@ namespace MVCProjectHamburger.Migrations
                         name: "FK_Orders_AspNetUsers_AppUserID",
                         column: x => x.AppUserID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -269,17 +268,12 @@ namespace MVCProjectHamburger.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "42f26739-3de2-44a9-ad5d-21688a24d3ee", "Admin", "ADMIN" });
+                values: new object[] { 1, "66a89778-12e9-4648-b23b-728c2dacfafe", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "ed30e97e-6d98-47d5-9379-d5f9b3718840", "User", "USER" });
-
-            migrationBuilder.InsertData(
-                table: "ExtraIngredients",
-                columns: new[] { "ID", "CoverImage", "Name", "Price" },
-                values: new object[] { 1, "bbq.jpg", "BBQ", 18 });
+                values: new object[] { 2, "f10180e3-51a6-4753-a2f9-7fcafb3cc0a9", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

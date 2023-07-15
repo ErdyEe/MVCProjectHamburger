@@ -158,14 +158,14 @@ namespace MVCProjectHamburger.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "72086d4a-673e-4da2-a3b9-f0009d670044",
+                            ConcurrencyStamp = "66a89778-12e9-4648-b23b-728c2dacfafe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "151c42f1-94f1-4dbc-accb-dc67b405ba53",
+                            ConcurrencyStamp = "f10180e3-51a6-4753-a2f9-7fcafb3cc0a9",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -355,7 +355,7 @@ namespace MVCProjectHamburger.Migrations
                     b.Property<int?>("AppUserID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TotalPrice")
+                    b.Property<int>("TotalPrice")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
