@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\HamburgerCoverImages\BonanzaBurger.jpg" />
+    <Content Remove="wwwroot\HamburgerCoverImages\catering-pic.jpg" />
+    <Content Remove="wwwroot\HamburgerCoverImages\indir.jpg" />
+    <Content Remove="wwwroot\HamburgerCoverImages\large_slider_img.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.20" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.20" />
@@ -24,8 +31,14 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\User\Data\" />
     <Folder Include="Areas\User\Models\" />
-    <Folder Include="wwwroot\HamburgerCoverImages\" />
     <Folder Include="wwwroot\ExtraIngredientCoverImages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\HamburgerCoverImages\BonanzaBurger.jpg" />
+    <None Include="wwwroot\HamburgerCoverImages\catering-pic.jpg" />
+    <None Include="wwwroot\HamburgerCoverImages\indir.jpg" />
+    <None Include="wwwroot\HamburgerCoverImages\large_slider_img.jpg" />
   </ItemGroup>
 
 </Project>

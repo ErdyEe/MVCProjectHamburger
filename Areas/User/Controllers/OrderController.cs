@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +16,7 @@ using MVCProjectHamburger.Models.ViewModels;
 namespace MVCProjectHamburger.Areas.User.Controllers
 {
     [Area("User")]
+    
     public class OrderController : Controller
     {
         private readonly HamburgerDbContext _context;
@@ -44,10 +47,7 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             List<ExtraIngredient> extraIngredients = _context.ExtraIngredients.ToList();
             return PartialView("_GetExtraIngredientPartial", extraIngredients);
         }
-        //public IActionResult AddToOrder()
-        //{
-        //    return PartialView("_GetPartialShoppingCart");
-        //}
+        
 
         [HttpPost]
         public IActionResult AddToOrder(int menuID, int number, int menuSize)
@@ -70,22 +70,12 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             ShoppingCart cart = new ShoppingCart();
             cart.OrderID = od.ID;
             cart.Name = menu.Name;
-            cart.TotalPrice= (menu.Price + menuSize) * number; // Addtoorder a totalprice ekle !!
+            cart.TotalPrice= (menu.Price + menuSize) * number;
             cart.Number = number;
             cart.MenuSize=EnumBelirle(menuSize).ToString();
             cart.MenuOrderId = lastMenuOrder.ID;
             _context.shoppingCarts.Add(cart);
             _context.SaveChanges();
-
-            //List<string> list = new List<string>();
-            //list.Add(menu.Name);
-            //list.Add(od.TotalPrice.ToString());
-            //list.Add(number.ToString());
-            //list.Add(EnumBelirle(menuSize).ToString());
-
-           
-
-
 
             return RedirectToAction("ShoopingCart", new { id = od.ID });
 
@@ -108,14 +98,6 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             _context.SaveChanges();
             return NoContent();
         }
-
-
-        //Login olununca new Order yapılacak 
-        //AddToOrder actioununda menu seçildi menuorderdan ordera ekleme yapılacak
-
-        //Sipariş tamamla denildiğinde orders listesine order eklenecek
-        //Sipariş tamamla deninldiğinde new order yapılacak
-
 
         private int GetUserID()
         {

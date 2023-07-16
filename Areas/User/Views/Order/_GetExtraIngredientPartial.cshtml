@@ -1,17 +1,20 @@
 ﻿@model List<ExtraIngredient>
 
+
+<form method="post" action="/User/Order/AddToOrder/">
 <div class="row">
     @foreach (ExtraIngredient extraIngredient in Model)
     {
-        <div class="col-sm-4" style="margin-top: 20px">
+        <div class="col-sm-6" style="margin-top: 20px">
             <div class="card" style="width: 20rem;">
                 <img class="card-img-top" src="/ExtraIngredientCoverImages/@extraIngredient.CoverImage" alt="Card image cap" style="height: 200px; width: 200px; display: block; margin-left: auto; margin-right: auto;">
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h5 class="card-title"> @extraIngredient.Name </h5>
                     <p class="card-text"> @extraIngredient.Price TL </p>
-                    <a href="#" class="btn btn-primary"> Sepete Ekle </a>
+                    <a href="#" class="btn btn-danger"> Add To ShoppingCart </a>
                 </div>
             </div>
         </div>
     }
 </div>
+</form>

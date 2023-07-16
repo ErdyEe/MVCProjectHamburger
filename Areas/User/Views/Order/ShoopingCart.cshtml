@@ -1,4 +1,4 @@
-﻿@model List<MVCProjectHamburger.Models.Entities.Concrete.ShoppingCart>
+﻿@*@model List<MVCProjectHamburger.Models.Entities.Concrete.ShoppingCart>
 
 @{
     ViewData["Title"] = "ShoopingCart";
@@ -23,12 +23,14 @@
                 Number
             </th>
             <th>
-                MenuSize
+                Menu Size
             </th>
             <th>
                 MenuOrderId
             </th>
-            <th></th>
+            <th>
+                Total Price
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -52,12 +54,60 @@
                     @item.MenuOrderId
                 </td>
                 <td>
+                    @item.TotalPrice
+                </td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                 </td>
             </tr>
         }
-        <h1>Total Price: @Model.Last().TotalPrice</h1>
+       
     </tbody>
 </table>
+
+<h1>Total Price: @Model.Last().TotalPrice</h1>*@
+
+@model List<MVCProjectHamburger.Models.Entities.Concrete.ShoppingCart>
+
+@{
+    ViewData["Title"] = "ShoopingCart";
+}
+
+<h1> Shooping Cart </h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>OrderID</th>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Menu Size</th>
+            <th>MenuOrderId</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderID</td>
+                <td>@item.Name</td>
+                <td>@item.Number</td>
+                <td>@item.MenuSize</td>
+                <td>@item.MenuOrderId</td>
+                <td>@item.TotalPrice</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID" asp-route-menuid="@item.MenuOrderId"> Delete </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h1>Total Price: @Model.Last().TotalPrice</h1>
