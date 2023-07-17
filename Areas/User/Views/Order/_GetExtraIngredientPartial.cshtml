@@ -1,7 +1,7 @@
 ﻿@model List<ExtraIngredient>
 
 
-<form method="post" action="/User/Order/AddToOrder/">
+<form method="post" asp-area="User" asp-controller="Order" asp-action="AddToOrder">
 <div class="row">
     @foreach (ExtraIngredient extraIngredient in Model)
     {
@@ -11,7 +11,11 @@
                 <div class="card-body text-center">
                     <h5 class="card-title"> @extraIngredient.Name </h5>
                     <p class="card-text"> @extraIngredient.Price TL </p>
-                    <a href="#" class="btn btn-danger"> Add To ShoppingCart </a>
+                        <input type="hidden" name="menuID" value="@extraIngredient.ID">
+
+                        <label for="myNumber">Number:</label>
+                        <input type="number" id="myNumber" name="number" min="1" max="100" step="1" value="1">
+                    <button type="submit" class=" btn btn-danger"> Add To ShoppingCart </button>
                 </div>
             </div>
         </div>

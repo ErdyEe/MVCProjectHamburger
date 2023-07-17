@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using MVCProjectHamburger.Models.Configuration;
 using MVCProjectHamburger.Models.Entities.Concrete;
+using System.Reflection.Emit;
+using MVCProjectHamburger.Models.ViewModels;
 
 namespace MVCProjectHamburger.Data
 {
@@ -15,11 +17,11 @@ namespace MVCProjectHamburger.Data
         public DbSet<ExtraIngredient> ExtraIngredients { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ExtraIngredientOrder> ExtraIngredientOrders { get; set; }
-       
+
         public DbSet<MenuOrder> MenuOrders { get; set; }
         public DbSet<AppUser> Users { get; set; }
         public DbSet<AppRole> Roles { get; set; }
-        public DbSet<ShoppingCart> shoppingCarts { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ExtraIngredient>().HasKey(x => x.ID);
@@ -27,9 +29,26 @@ namespace MVCProjectHamburger.Data
             builder.Entity<Menu>().HasKey(x => x.ID);
             builder.Entity<ExtraIngredientOrder>().HasKey(x => x.ID);
             builder.Entity<ShoppingCart>().HasKey(x => x.ID);
-           
+
             builder.Entity<MenuOrder>().HasKey(x => x.ID);
-            
+
+
+            builder.Entity<ShoppingCart>()
+                                        .HasOne(s => s.ExtraIngredientOrder)
+                                        .WithMany(ei => ei.ShoppingCarts)
+                                        .HasForeignKey(s => s.ExtraIngredientOrderId);
+
+            builder.Entity<ShoppingCart>()
+                                       .HasOne(s => s.MenuOrder)
+                                       .WithMany(m => m.ShoppingCarts)
+                                       .HasForeignKey(s => s.MenuOrderId)
+                                       .OnDelete(DeleteBehavior.Restrict); // or DeleteBehavior.Cascade, depending on your needs
+
+            builder.Entity<ShoppingCart>()
+                                        .HasOne(s => s.ExtraIngredientOrder)
+                                        .WithMany(e => e.ShoppingCarts)
+                                        .HasForeignKey(s => s.ExtraIngredientOrderId)
+                                        .OnDelete(DeleteBehavior.Restrict); // or DeleteBehavior.Cascade, depending on your needs
 
 
             builder.Entity<AppRole>().HasData(
@@ -40,11 +59,12 @@ namespace MVCProjectHamburger.Data
             builder.ApplyConfiguration<Menu>(new Menu_CFG());
             builder.ApplyConfiguration<ExtraIngredient>(new ExtraIngredient_CFG());
             builder.ApplyConfiguration<Order>(new Order_CFG());
-           
+
             builder.ApplyConfiguration<ExtraIngredientOrder>(new ExtraIngredientOrder_CFG());
             builder.ApplyConfiguration<MenuOrder>(new MenuOrder_CFG());
 
             base.OnModelCreating(builder);
         }
+        public DbSet<MVCProjectHamburger.Models.ViewModels.ShoppingCartVM>? ShoppingCartVM { get; set; }
     }
 }

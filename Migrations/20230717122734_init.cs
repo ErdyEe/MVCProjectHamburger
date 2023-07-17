@@ -237,11 +237,11 @@ namespace MVCProjectHamburger.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AppUserID = table.Column<int>(type: "int", nullable: true),
-                    MenuID = table.Column<int>(type: "int", nullable: false),
+                    AppUserID = table.Column<int>(type: "int", nullable: false),
                     OrderID = table.Column<int>(type: "int", nullable: false),
                     Number = table.Column<int>(type: "int", nullable: false),
-                    MenuSizes = table.Column<int>(type: "int", nullable: false)
+                    MenuSizes = table.Column<int>(type: "int", nullable: false),
+                    MenuID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -250,7 +250,8 @@ namespace MVCProjectHamburger.Migrations
                         name: "FK_MenuOrders_AspNetUsers_AppUserID",
                         column: x => x.AppUserID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MenuOrders_Menus_MenuID",
                         column: x => x.MenuID,
@@ -265,15 +266,52 @@ namespace MVCProjectHamburger.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "66a89778-12e9-4648-b23b-728c2dacfafe", "Admin", "ADMIN" });
+            migrationBuilder.CreateTable(
+                name: "ShoppingCarts",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalPrice = table.Column<int>(type: "int", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    MenuSize = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MenuOrderId = table.Column<int>(type: "int", nullable: true),
+                    ExtraIngredientOrderId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingCarts", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_ExtraIngredientOrders_ExtraIngredientOrderId",
+                        column: x => x.ExtraIngredientOrderId,
+                        principalTable: "ExtraIngredientOrders",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_MenuOrders_MenuOrderId",
+                        column: x => x.MenuOrderId,
+                        principalTable: "MenuOrders",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ShoppingCarts_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "f10180e3-51a6-4753-a2f9-7fcafb3cc0a9", "User", "USER" });
+                values: new object[] { 1, "c57b6587-70c5-4d99-a592-b9b7ef566639", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { 2, "d0472f20-30db-4d01-adc3-2965a4579be7", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -343,6 +381,21 @@ namespace MVCProjectHamburger.Migrations
                 name: "IX_Orders_AppUserID",
                 table: "Orders",
                 column: "AppUserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_ExtraIngredientOrderId",
+                table: "ShoppingCarts",
+                column: "ExtraIngredientOrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_MenuOrderId",
+                table: "ShoppingCarts",
+                column: "MenuOrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCarts_OrderId",
+                table: "ShoppingCarts",
+                column: "OrderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -363,13 +416,16 @@ namespace MVCProjectHamburger.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ShoppingCarts");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "ExtraIngredientOrders");
 
             migrationBuilder.DropTable(
                 name: "MenuOrders");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "ExtraIngredients");

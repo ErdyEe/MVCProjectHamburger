@@ -11,5 +11,6 @@ namespace MVCProjectHamburger.Models.Entities.Concrete
         }
      
         public ICollection<ExtraIngredientOrder> OrderExtraIngredients { get; set; }
+        
     }
 }

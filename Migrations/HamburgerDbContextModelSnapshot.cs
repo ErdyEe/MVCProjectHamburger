@@ -158,14 +158,14 @@ namespace MVCProjectHamburger.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "12f594b8-6791-430e-9fac-e804e0e77c7b",
+                            ConcurrencyStamp = "da15f50e-e543-431a-984b-1fd5894f6a71",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "22ebcefc-2a32-48d4-8580-86e58a2ee7db",
+                            ConcurrencyStamp = "bb012711-99d7-457a-a64f-6dfc3841ed5a",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -271,13 +271,21 @@ namespace MVCProjectHamburger.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
+                    b.Property<int>("AppUserID")
+                        .HasColumnType("int");
+
                     b.Property<int>("ExtraIngredientID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Number")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AppUserID");
 
                     b.HasIndex("ExtraIngredientID");
 
@@ -318,7 +326,7 @@ namespace MVCProjectHamburger.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int?>("AppUserID")
+                    b.Property<int>("AppUserID")
                         .HasColumnType("int");
 
                     b.Property<int>("MenuID")
@@ -373,11 +381,13 @@ namespace MVCProjectHamburger.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<int>("MenuOrderId")
+                    b.Property<int?>("ExtraIngredientOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MenuOrderId")
                         .HasColumnType("int");
 
                     b.Property<string>("MenuSize")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -387,7 +397,7 @@ namespace MVCProjectHamburger.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderID")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("TotalPrice")
@@ -395,7 +405,13 @@ namespace MVCProjectHamburger.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("shoppingCarts");
+                    b.HasIndex("ExtraIngredientOrderId");
+
+                    b.HasIndex("MenuOrderId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -451,6 +467,12 @@ namespace MVCProjectHamburger.Migrations
 
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.ExtraIngredientOrder", b =>
                 {
+                    b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.ExtraIngredient", "ExtraIngredient")
                         .WithMany("OrderExtraIngredients")
                         .HasForeignKey("ExtraIngredientID")
@@ -463,6 +485,8 @@ namespace MVCProjectHamburger.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("AppUser");
+
                     b.Navigation("ExtraIngredient");
 
                     b.Navigation("Order");
@@ -472,7 +496,9 @@ namespace MVCProjectHamburger.Migrations
                 {
                     b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.AppUser", "AppUser")
                         .WithMany("MenuOrders")
-                        .HasForeignKey("AppUserID");
+                        .HasForeignKey("AppUserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.Menu", "Menu")
                         .WithMany("MenuOrders")
@@ -502,6 +528,31 @@ namespace MVCProjectHamburger.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.ShoppingCart", b =>
+                {
+                    b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.ExtraIngredientOrder", "ExtraIngredientOrder")
+                        .WithMany("ShoppingCarts")
+                        .HasForeignKey("ExtraIngredientOrderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.MenuOrder", "MenuOrder")
+                        .WithMany("ShoppingCarts")
+                        .HasForeignKey("MenuOrderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("MVCProjectHamburger.Models.Entities.Concrete.Order", "Order")
+                        .WithMany("ShoppingCarts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExtraIngredientOrder");
+
+                    b.Navigation("MenuOrder");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.AppUser", b =>
                 {
                     b.Navigation("MenuOrders");
@@ -512,9 +563,19 @@ namespace MVCProjectHamburger.Migrations
                     b.Navigation("OrderExtraIngredients");
                 });
 
+            modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.ExtraIngredientOrder", b =>
+                {
+                    b.Navigation("ShoppingCarts");
+                });
+
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.Menu", b =>
                 {
                     b.Navigation("MenuOrders");
+                });
+
+            modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.MenuOrder", b =>
+                {
+                    b.Navigation("ShoppingCarts");
                 });
 
             modelBuilder.Entity("MVCProjectHamburger.Models.Entities.Concrete.Order", b =>
@@ -522,6 +583,8 @@ namespace MVCProjectHamburger.Migrations
                     b.Navigation("OrderExtraIngredients");
 
                     b.Navigation("OrderMenus");
+
+                    b.Navigation("ShoppingCarts");
                 });
 #pragma warning restore 612, 618
         }
