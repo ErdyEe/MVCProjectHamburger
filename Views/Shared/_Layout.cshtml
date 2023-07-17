@@ -30,7 +30,7 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <a class="navbar-brand">
-                        <img src="/HamburgerCoverImages/fast-food.png" width="30px" height="30px" />
+                        <img src="/HamburgerCoverImages/LogoSonHal.png" width="160px" height="100px" />
                     </a>
                 </a>
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> AvocadoBurger House </a>
@@ -49,18 +49,14 @@
                             <li class="nav-item">
                                 <a class="nav-link text-red text-font" asp-area="Admin" asp-controller="ExtraIngredient" asp-action="Index"> Add Extra Ingredient </a>
                             </li>
+                            
                             <li class="nav-item">
-                                <a class="nav-link text-red text-font" asp-area="Admin" asp-controller="Panel" asp-action="Index"> Admin Control </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-red text-font" asp-area="User" asp-controller="Order" asp-action="Index"> Orders </a>
+                                <a class="nav-link text-red text-font" asp-area="Admin" asp-controller="Order" asp-action="Index"> Orders </a>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-red text-font" asp-area="User" asp-controller="Order" asp-action="Index"> Orders </a>
-                            </li>
+                            
                         }
 
                     </ul>
