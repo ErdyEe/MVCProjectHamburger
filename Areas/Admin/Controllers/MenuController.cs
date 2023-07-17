@@ -126,6 +126,28 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
 
             var menu = await _context.Menus
                 .FirstOrDefaultAsync(m => m.ID == id);
+
+
+            foreach (MenuOrder item in _context.MenuOrders.ToList())
+            {
+                if (item.MenuID == id)
+                {
+                    _context.MenuOrders.Remove(item);
+                    
+                }
+            }
+
+            foreach (ShoppingCart item in _context.ShoppingCarts.ToList())
+            {
+                if (item.MenuOrder.MenuID == id)
+                {
+                    _context.ShoppingCarts.Remove(item);
+                   
+                }
+            }
+
+            _context.SaveChanges();
+
             if (menu == null)
             {
                 return NotFound();

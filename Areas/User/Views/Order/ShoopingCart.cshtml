@@ -6,7 +6,7 @@
     ViewData["Title"] = "ShoopingCart";
 }
 
-<h1> Shooping Cart </h1>
+<h1> Shopping Cart </h1>
 
 
 <table class="table">
@@ -47,6 +47,8 @@
     }
 }
 <h1>Total Price: @total</h1>
-    <input type="submit" value="To Order" class="btn btn-success" />
+    <a class="btn btn-danger" asp-area="User" asp-controller="Order" asp-action="Index"> Continue Order </a>
+    <br />
+    <input type="submit" value="Order" class="btn btn-dark" />
 </form>
 

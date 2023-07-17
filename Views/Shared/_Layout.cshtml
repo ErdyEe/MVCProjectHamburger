@@ -17,7 +17,7 @@
             color: red;
         }
 
-        .text-font{
+        .text-font {
             font-family: Arial;
             color: darkred;
         }
@@ -33,7 +33,7 @@
                         <img src="/HamburgerCoverImages/LogoSonHal.png" width="160px" height="100px" />
                     </a>
                 </a>
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> AvocadoBurger House </a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> Avocado Burger House </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -43,21 +43,30 @@
 
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark text-font" asp-area="Admin" asp-controller="Menu" asp-action="Index"> Add Menu </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-red text-font" asp-area="Admin" asp-controller="ExtraIngredient" asp-action="Index"> Add Extra Ingredient </a>
-                            </li>
-                            
-                            <li class="nav-item">
-                                <a class="nav-link text-red text-font" asp-area="Admin" asp-controller="Order" asp-action="Index"> Orders </a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle font-weight-bold text-dark text-font" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin Control
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Menu" asp-action="Index">Add Menu</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="ExtraIngredient" asp-action="Index">Add Extra Ingredient</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Index">Orders</a>
+                                </div>
                             </li>
                         }
-                        else
+                        else if(User.IsInRole("User"))
                         {
-                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle font-weight-bold text-dark text-font" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    User Control
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                    <a class="dropdown-item" asp-area="User" asp-controller="Order" asp-action="Index"> Menu </a>
+                                    <a class="dropdown-item" asp-area="User" asp-controller="Order" asp-action="ShoopingCart"> Shopping Cart </a>
+                                </div>
+                            </li>
                         }
+
 
                     </ul>
                     <partial name="_LoginPartial" />

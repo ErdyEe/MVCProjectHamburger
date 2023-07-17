@@ -109,9 +109,13 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             }
 
         }
-        public IActionResult ShoopingCart(int id)
+        public IActionResult ShoopingCart(string? idd)
         {
-            List<ShoppingCart> orderList = _context.ShoppingCarts.Where(x => x.OrderId == id).ToList();
+
+            List<Order> orders = _context.Orders.OrderBy(x=>x.ID).ToList();
+            int lastId = orders.Last().ID;
+
+            List<ShoppingCart> orderList = _context.ShoppingCarts.Where(x => x.OrderId == lastId).ToList();
             return View(orderList);
 
         }
@@ -179,6 +183,19 @@ namespace MVCProjectHamburger.Areas.User.Controllers
             _context.ShoppingCarts.Update(cart);
             _context.SaveChanges();
 
+
+            Order od = _context.Orders.Find(cart.OrderId);
+            List<ShoppingCart> carts = _context.ShoppingCarts.Where(x => x.OrderId == cart.OrderId).ToList();
+            od.TotalPrice = 0;
+            foreach (ShoppingCart item in carts)
+            {
+                od.TotalPrice += item.TotalPrice;
+
+            }
+            _context.Orders.Update(od);
+            _context.SaveChanges();
+
+
             return RedirectToAction("ShoopingCart", new { id = cart.OrderId });
 
 
@@ -187,9 +204,20 @@ namespace MVCProjectHamburger.Areas.User.Controllers
         public ActionResult Delete(int id)
         {
             ShoppingCart sc = _context.ShoppingCarts.Find(id);
+            Order od = _context.Orders.Find(sc.OrderId);
+
             if (sc != null)
             {
                 _context.ShoppingCarts.Remove(sc);
+                _context.SaveChanges();
+                List<ShoppingCart> carts = _context.ShoppingCarts.Where(x => x.OrderId == sc.OrderId).ToList();
+                od.TotalPrice = 0;
+                foreach (ShoppingCart item in carts)
+                {
+                    od.TotalPrice += item.TotalPrice; 
+
+                }
+                _context.Orders.Update(od);
                 _context.SaveChanges();
                 return RedirectToAction("ShoopingCart", new { id = sc.OrderId });
             }

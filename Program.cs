@@ -64,9 +64,9 @@ namespace MVCProjectHamburger
             app.MapRazorPages();
 
 
-            var scope = app.Services.CreateScope();
-            var userManager = (UserManager<AppUser>)scope.ServiceProvider.GetService(typeof(UserManager<AppUser>));
-            ForLogin.AddSuperUserAsync(userManager);
+            //var scope = app.Services.CreateScope();
+            //var userManager = (UserManager<AppUser>)scope.ServiceProvider.GetService(typeof(UserManager<AppUser>));
+            //ForLogin.AddSuperUserAsync(userManager);
 
             app.Run();
         }

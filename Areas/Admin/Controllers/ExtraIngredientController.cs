@@ -125,6 +125,29 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
 
             var extraIngredient = await _context.ExtraIngredients
                 .FirstOrDefaultAsync(m => m.ID == id);
+
+
+            foreach (ExtraIngredientOrder item in _context.ExtraIngredientOrders.ToList())
+            {
+                if (item.ExtraIngredientID == id)
+                {
+                    _context.ExtraIngredientOrders.Remove(item);
+                }
+            }
+
+
+            foreach (ShoppingCart item in _context.ShoppingCarts.ToList())
+            {
+                if (item.ExtraIngredientOrder.ExtraIngredientID == id)
+                {
+                    _context.ShoppingCarts.Remove(item);
+
+                }
+            }
+
+            _context.SaveChanges();
+
+
             if (extraIngredient == null)
             {
                 return NotFound();

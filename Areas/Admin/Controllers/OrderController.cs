@@ -68,6 +68,19 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
             _context.ShoppingCarts.Update(cart);
             _context.SaveChanges();
 
+
+            Order od = _context.Orders.Find(cart.OrderId);
+            List<ShoppingCart> carts = _context.ShoppingCarts.Where(x => x.OrderId == cart.OrderId).ToList();
+            od.TotalPrice = 0;
+            foreach (ShoppingCart item in carts)
+            {
+                od.TotalPrice += item.TotalPrice;
+
+            }
+            _context.Orders.Update(od);
+            _context.SaveChanges();
+
+
             return RedirectToAction("Index");
 
 
@@ -76,10 +89,22 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
             ShoppingCart sc=_context.ShoppingCarts.Find(id);
+            Order od = _context.Orders.Find(sc.OrderId);
+
             if (sc != null)
             {
                 _context.ShoppingCarts.Remove(sc);
-                _context.SaveChanges(); 
+                _context.SaveChanges();
+
+                List<ShoppingCart> carts = _context.ShoppingCarts.Where(x => x.OrderId == sc.OrderId).ToList();
+                od.TotalPrice = 0;
+                foreach (ShoppingCart item in carts)
+                {
+                    od.TotalPrice += item.TotalPrice;
+
+                }
+                _context.Orders.Update(od);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             else 
