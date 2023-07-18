@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MVCProjectHamburger.Models.Configuration;
 using MVCProjectHamburger.Models.Entities.Concrete;
 using System.Reflection.Emit;
 using MVCProjectHamburger.Models.ViewModels;
@@ -56,13 +55,7 @@ namespace MVCProjectHamburger.Data
                 new AppRole { Id = 2, Name = "User", NormalizedName = "USER" }
                 );
 
-            builder.ApplyConfiguration<Menu>(new Menu_CFG());
-            builder.ApplyConfiguration<ExtraIngredient>(new ExtraIngredient_CFG());
-            builder.ApplyConfiguration<Order>(new Order_CFG());
-
-            builder.ApplyConfiguration<ExtraIngredientOrder>(new ExtraIngredientOrder_CFG());
-            builder.ApplyConfiguration<MenuOrder>(new MenuOrder_CFG());
-
+           
             base.OnModelCreating(builder);
         }
         public DbSet<MVCProjectHamburger.Models.ViewModels.ShoppingCartVM>? ShoppingCartVM { get; set; }

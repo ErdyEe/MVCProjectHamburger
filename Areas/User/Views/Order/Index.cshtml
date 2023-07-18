@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<MVCProjectHamburger.Models.Entities.Concrete.Order>
 
+<div class="row">
 
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -30,27 +31,31 @@
 
 
     <div class="row justify-content-center">
-        <div class="col-md-2 col-lg-3 sidebar-offcanvas">
+        <div class="col-md-2 col-md-3 sidebar-offcanvas" >
 
             <form method="post" asp-action="NewOrder">
                 <input type="submit" class="btn btn-outline-secondary" value="New Order" />
             </form>
 
             <br />
-      @*  <img src="~/HamburgerCoverImages/fast-food.png" width="30px" height="30px" />*@
+            @*  <img src="~/HamburgerCoverImages/fast-food.png" width="30px" height="30px" />*@
             <a class="btn btn-outline-warning" onclick="GetMenuList()">
-            <img src="~/HamburgerCoverImages/3075977.png" width="30px" height="30px" />
-                Menus </a>
+                <img src="~/HamburgerCoverImages/3075977.png" width="30px" height="30px" />
+                Menus
+            </a>
             <br />
-       @* <img src="~/ExtraIngredientCoverImages/1046786.png" width="30px" height="30px" />*@
+            @* <img src="~/ExtraIngredientCoverImages/1046786.png" width="30px" height="30px" />*@
             <a class="btn btn-outline-warning" onclick="GetExtraIngredientList()">
-            <img src="~/ExtraIngredientCoverImages/1046786.png" width="30px" height="30px" />
-                Extra Ingredients </a>
+                <img src="~/ExtraIngredientCoverImages/1046786.png" width="30px" height="30px" />
+                Extra Ingredients
+            </a>
 
         </div>
         <div class="col-md-10 col-lg-9">
-            <div id="list"></div>
-            <div id="shoppingCart"></div>
+            <div id="list">
+
+            </div>
         </div>
     </div>
 
+</div>

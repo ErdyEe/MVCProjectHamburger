@@ -112,6 +112,11 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+        public IActionResult Accountancy()
+        {
+            List<Order> od=_context.Orders.ToList();
+            return View(od);
+        }
         private Enum EnumBelirle(int sayi)
         {
             if (sayi == 1)
