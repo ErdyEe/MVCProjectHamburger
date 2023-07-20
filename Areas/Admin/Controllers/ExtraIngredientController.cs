@@ -138,7 +138,8 @@ namespace MVCProjectHamburger.Areas.Admin.Controllers
 
             foreach (ShoppingCart item in _context.ShoppingCarts.ToList())
             {
-                if (item.ExtraIngredientOrder.ExtraIngredientID == id)
+                
+                if (item.ExtraIngredientOrderId == id)
                 {
                     _context.ShoppingCarts.Remove(item);
 
